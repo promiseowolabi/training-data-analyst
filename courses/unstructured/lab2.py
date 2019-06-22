@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
-from pyspark import SparkContext
-sc = SparkContext("local")
+#from pyspark import SparkContext
+#sc = SparkContext("local")
 
-file = sc.textFile("gs://BUCKET_NAME/unstructured/lab2-input.txt")
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName('spark').getOrCreate()
+
+file = spark.textFile("gs://esoteric-bruin-838/unstructured/lab2-input.txt")
 dataLines = file.map(lambda s: s.split(",")).map(lambda x : (x[0], [x[1]]))
 print(dataLines.take(100))
 
